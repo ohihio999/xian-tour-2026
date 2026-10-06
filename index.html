@@ -1,0 +1,1710 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>兩岸青年陝西考察雙團全景比對與動線手冊</title>
+  <!-- Tailwind CSS -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  <!-- Leaflet 地圖樣式與腳本（類似 Google 地圖的真實圖資） -->
+  <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
+  <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+
+  <style>
+    :root {
+      --ivory: #faf9f5;
+      --paper: #ffffff;
+      --slate: #141413;
+      --clay: #d97757;
+      --clay-d: #b85c3e;
+      --oat: #e3dacc;
+      --olive: #788c5d;
+      --olive-soft: #eff1e8;
+      --olive-border: #c8d2b8;
+      --g100: #f0eee6;
+      --g200: #e6e3da;
+      --g300: #d1cfc5;
+      --g500: #87867f;
+      --g700: #3d3d3a;
+      --clay-soft: #fbe9df;
+      --gold: #b38236;
+      --gold-soft: #fcf6eb;
+      --serif: "Noto Serif TC", ui-serif, Georgia, "Times New Roman", serif;
+      --sans: system-ui, -apple-system, "Segoe UI", Roboto, "PingFang TC", "Noto Sans TC", sans-serif;
+      --mono: ui-monospace, "SF Mono", Menlo, Monaco, Consolas, monospace;
+    }
+
+    * {
+      box-sizing: border-box;
+    }
+
+    body {
+      margin: 0;
+      background-color: var(--ivory);
+      color: var(--slate);
+      font-family: var(--sans);
+      font-size: 18px; /* 全面放大基礎字體 */
+      line-height: 1.7;
+      -webkit-font-smoothing: antialiased;
+    }
+
+    .wrap {
+      width: min(94vw, 1680px);
+      margin: 0 auto;
+      padding: 0 24px 100px;
+    }
+
+    .prose-text {
+      max-width: 76ch;
+      font-size: 18px;
+      line-height: 1.75;
+    }
+
+    /* 頂部標題 */
+    header.masthead {
+      padding: 56px 0 36px;
+      border-bottom: 2px solid var(--g300);
+      margin-bottom: 28px;
+    }
+
+    .eyebrow {
+      font-family: var(--mono);
+      font-size: 14px;
+      letter-spacing: 0.14em;
+      text-transform: uppercase;
+      color: var(--clay-d);
+      margin-bottom: 14px;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      font-weight: 700;
+    }
+
+    .eyebrow::before {
+      content: "";
+      width: 26px;
+      height: 3px;
+      background: var(--clay);
+    }
+
+    h1 {
+      font-family: var(--serif);
+      font-weight: 700;
+      font-size: clamp(32px, 4.4vw, 54px);
+      line-height: 1.18;
+      color: var(--slate);
+      margin: 0 0 16px;
+    }
+
+    h1 em {
+      font-style: normal;
+      color: var(--clay);
+      position: relative;
+    }
+
+    .lead-text {
+      font-size: 19px;
+      color: var(--g700);
+      max-width: 860px;
+      margin-top: 14px;
+      line-height: 1.75;
+    }
+
+    /* 快捷切換導覽列 */
+    .tab-bar {
+      display: flex;
+      gap: 10px;
+      overflow-x: auto;
+      padding: 10px 0 16px;
+      margin-bottom: 30px;
+      border-bottom: 1.5px solid var(--g300);
+      position: sticky;
+      top: 0;
+      background: rgba(250, 249, 245, 0.96);
+      backdrop-filter: blur(10px);
+      z-index: 40;
+    }
+
+    .tab-btn {
+      padding: 11px 22px;
+      border-radius: 9999px;
+      font-size: 16px;
+      font-weight: 600;
+      color: var(--g700);
+      background: var(--g100);
+      border: 1.5px solid var(--g300);
+      white-space: nowrap;
+      cursor: pointer;
+      transition: all 0.2s ease;
+    }
+
+    .tab-btn:hover {
+      background: var(--g200);
+      color: var(--slate);
+    }
+
+    .tab-btn.active {
+      background: var(--clay);
+      color: #ffffff;
+      border-color: var(--clay-d);
+      box-shadow: 0 3px 8px rgba(217, 119, 87, 0.3);
+    }
+
+    /* 卡片與容器 */
+    .card {
+      background: var(--paper);
+      border: 1.5px solid var(--g300);
+      border-radius: 16px;
+      padding: 28px;
+      box-shadow: 0 2px 10px rgba(20, 20, 19, 0.04);
+    }
+
+    .card-title {
+      font-family: var(--serif);
+      font-size: 24px;
+      font-weight: 700;
+      color: var(--slate);
+      margin-bottom: 16px;
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+
+    /* 數據卡片群 */
+    .metric-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+      gap: 20px;
+      margin-bottom: 32px;
+    }
+
+    .metric-card {
+      background: var(--paper);
+      border: 1.5px solid var(--g300);
+      border-radius: 14px;
+      padding: 22px;
+      border-top: 5px solid var(--clay);
+    }
+
+    .metric-card.gold {
+      border-top-color: var(--gold);
+    }
+
+    .metric-card.olive {
+      border-top-color: var(--olive);
+    }
+
+    .metric-card.slate {
+      border-top-color: var(--slate);
+    }
+
+    .metric-num {
+      font-family: var(--mono);
+      font-size: 38px;
+      font-weight: 700;
+      color: var(--slate);
+      line-height: 1.1;
+      margin: 10px 0 6px;
+    }
+
+    .metric-label {
+      font-size: 14px;
+      color: var(--g500);
+      text-transform: uppercase;
+      letter-spacing: 0.06em;
+      font-weight: 600;
+    }
+
+    /* 表格設計：大字體、高對比、自帶橫向滑動保護 */
+    .table-container {
+      overflow-x: auto;
+      border: 1.5px solid var(--g300);
+      border-radius: 14px;
+      background: var(--paper);
+      margin-bottom: 26px;
+      -webkit-overflow-scrolling: touch;
+    }
+
+    table.custom-table {
+      width: 100%;
+      min-width: 760px;
+      border-collapse: collapse;
+      text-align: left;
+      font-size: 16px; /* 表格字體放大至 16px */
+      line-height: 1.6;
+    }
+
+    table.custom-table th {
+      background: var(--g100);
+      color: var(--g700);
+      font-weight: 700;
+      padding: 14px 18px;
+      border-bottom: 2px solid var(--g300);
+      font-size: 16px;
+      white-space: nowrap;
+    }
+
+    table.custom-table td {
+      padding: 15px 18px;
+      border-bottom: 1px solid var(--g200);
+      color: var(--slate);
+      vertical-align: top;
+    }
+
+    table.custom-table tr:hover td {
+      background-color: #faf7f0;
+    }
+
+    /* 標籤元件放大 */
+    .tag {
+      display: inline-flex;
+      align-items: center;
+      padding: 4px 10px;
+      border-radius: 6px;
+      font-size: 14px;
+      font-weight: 600;
+      line-height: 1.35;
+    }
+
+    .tag-a {
+      background: #faebe3;
+      color: var(--clay-d);
+      border: 1px solid #e8c4af;
+    }
+
+    .tag-b {
+      background: #eff1e8;
+      color: var(--olive);
+      border: 1px solid #c8d2b8;
+    }
+
+    .tag-both {
+      background: #fdf5e6;
+      color: #9c6c19;
+      border: 1px solid #ebd4a8;
+    }
+
+    .tag-free {
+      background: #eef2ff;
+      color: #3730a3;
+      border: 1px solid #c7d2fe;
+    }
+
+    .tag-price {
+      background: #fef2f2;
+      color: #991b1b;
+      border: 1px solid #fecaca;
+      font-family: var(--mono);
+      font-weight: 700;
+    }
+
+    /* 每日雙欄對比 */
+    .day-row {
+      display: grid;
+      grid-template-columns: 160px 1fr 1fr;
+      gap: 18px;
+      border-bottom: 1px solid var(--g200);
+      padding: 18px 0;
+    }
+
+    @media (max-width: 960px) {
+      .day-row {
+        grid-template-columns: 1fr;
+      }
+    }
+
+    .day-badge {
+      font-family: var(--mono);
+      font-weight: 700;
+      font-size: 18px;
+      color: var(--clay);
+    }
+
+    .day-col {
+      background: var(--paper);
+      border: 1.5px solid var(--g200);
+      border-radius: 12px;
+      padding: 16px 18px;
+    }
+
+    .day-col.a-side {
+      border-left: 5px solid var(--clay);
+    }
+
+    .day-col.b-side {
+      border-left: 5px solid var(--olive);
+    }
+
+    .day-col.overlap {
+      background: #fdfcf7;
+      border-left: 5px solid var(--gold);
+    }
+
+    .time-slot {
+      display: inline-block;
+      font-family: var(--mono);
+      font-size: 15px;
+      font-weight: 700;
+      color: var(--g500);
+      margin-right: 8px;
+    }
+
+    .callout {
+      border-left: 5px solid var(--clay);
+      background: var(--clay-soft);
+      padding: 16px 20px;
+      border-radius: 0 10px 10px 0;
+      margin: 20px 0;
+      font-size: 16px;
+    }
+
+    .callout-olive {
+      border-left-color: var(--olive);
+      background: var(--olive-soft);
+    }
+
+    .callout-gold {
+      border-left-color: var(--gold);
+      background: var(--gold-soft);
+    }
+
+    /* 漸進揭露樣式 */
+    details.reveal {
+      border: 1.5px solid var(--g300);
+      border-radius: 12px;
+      padding: 14px 20px;
+      background: var(--paper);
+      margin-top: 16px;
+      font-size: 16px;
+    }
+
+    details.reveal[open] {
+      background: #faf8f4;
+      border-color: var(--g500);
+    }
+
+    details.reveal summary {
+      cursor: pointer;
+      font-weight: 700;
+      font-size: 16px;
+      color: var(--slate);
+      user-select: none;
+      outline: none;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    details.reveal summary::before {
+      content: "▶";
+      font-size: 13px;
+      color: var(--clay);
+      transition: transform 0.2s ease;
+    }
+
+    details.reveal[open] summary::before {
+      transform: rotate(90deg);
+    }
+
+    /* ═════ 地圖專屬樣式（Google 地圖體驗） ═════ */
+    #travel-map {
+      height: 640px;
+      width: 100%;
+      border-radius: 14px;
+      border: 1.5px solid var(--g300);
+      box-shadow: inset 0 2px 6px rgba(0, 0, 0, 0.05);
+      z-index: 10;
+    }
+
+    .map-controls-panel {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+      align-items: center;
+      background: #f4f2ea;
+      padding: 14px 18px;
+      border-radius: 12px;
+      margin-bottom: 14px;
+      border: 1px solid var(--g300);
+    }
+
+    .map-btn {
+      padding: 8px 16px;
+      border-radius: 8px;
+      font-size: 15px;
+      font-weight: 600;
+      background: #ffffff;
+      border: 1px solid var(--g300);
+      color: var(--slate);
+      cursor: pointer;
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      transition: all 0.15s ease;
+    }
+
+    .map-btn:hover {
+      background: #eeebe1;
+      border-color: var(--g500);
+    }
+
+    .map-btn.active {
+      background: var(--slate);
+      color: #ffffff;
+      border-color: var(--slate);
+    }
+
+    /* 自訂地圖標記圖釘 */
+    .custom-div-pin {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      width: 32px;
+      height: 32px;
+      border-radius: 50%;
+      color: #ffffff;
+      font-size: 13px;
+      font-weight: 700;
+      font-family: var(--mono);
+      box-shadow: 0 3px 8px rgba(0,0,0,0.35);
+      border: 2px solid #ffffff;
+      transition: transform 0.2s ease;
+      cursor: pointer;
+    }
+
+    .custom-div-pin:hover {
+      transform: scale(1.25);
+      z-index: 999;
+    }
+
+    .pin-a {
+      background: #d97757;
+    }
+
+    .pin-b {
+      background: #788c5d;
+    }
+
+    .pin-both {
+      background: #b38236;
+    }
+
+    /* 地圖彈窗樣式 */
+    .leaflet-popup-content-wrapper {
+      border-radius: 12px;
+      box-shadow: 0 4px 16px rgba(0,0,0,0.15);
+      padding: 4px;
+      font-family: var(--sans);
+    }
+
+    .popup-title {
+      font-size: 17px;
+      font-weight: 700;
+      color: #141413;
+      margin-bottom: 4px;
+    }
+
+    .popup-sub {
+      font-size: 13px;
+      color: #666;
+      margin-bottom: 6px;
+    }
+
+    .popup-badge {
+      display: inline-block;
+      font-size: 12px;
+      font-weight: 600;
+      padding: 2px 8px;
+      border-radius: 4px;
+      margin-right: 6px;
+    }
+
+    /* 逐日動線里程卡片 */
+    .route-step-card {
+      background: #ffffff;
+      border: 1px solid var(--g300);
+      border-radius: 10px;
+      padding: 12px 14px;
+      cursor: pointer;
+      transition: all 0.2s ease;
+    }
+
+    .route-step-card:hover {
+      border-color: var(--clay);
+      background: #faf7f2;
+      transform: translateY(-2px);
+      box-shadow: 0 3px 8px rgba(0,0,0,0.06);
+    }
+
+    /* Session 識別樣式 */
+    .vt-session-badge {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      padding: 8px 20px;
+      background: var(--vt-session-color, #666);
+      color: #fff;
+      font-family: var(--mono, ui-monospace, monospace);
+      font-size: 13px;
+      letter-spacing: 0.06em;
+      border-radius: 8px 8px 0 0;
+    }
+    .vt-session-badge .dot {
+      width: 8px;
+      height: 8px;
+      border-radius: 50%;
+      background: #fff;
+      opacity: 0.9;
+      flex-shrink: 0;
+    }
+    .vt-session-badge .lb {
+      font-weight: 700;
+      text-transform: uppercase;
+    }
+    .vt-session-badge .id {
+      margin-left: auto;
+      opacity: 0.75;
+    }
+  </style>
+</head>
+<body>
+
+<div class="wrap">
+  <!-- 頁首標頭 -->
+  <header class="masthead">
+    <div class="eyebrow">兩岸青年交流特刊 · 關中秦漢唐文化與科技考察</div>
+    <h1>兩岸青年陝西考察<em>雙團全景比對</em>與動線手冊</h1>
+    <p class="lead-text">
+      針對「<strong>“長安·同行”兩岸青年創新創業代表團（簡稱 A 團）</strong>」與「<strong>第四季（西安）台青創客三秦行：台青 AI 創新創業訓練營（簡稱 B 團）</strong>」，本手冊提供所有景點門票牌價全面盤點、雙團每日日程同日對照、類似 Google 地圖之<strong>真實地理動線與景點連線</strong>、以及參與對象決策指南。
+    </p>
+    <div class="flex flex-wrap gap-3 mt-4 text-sm text-stone-600">
+      <span class="bg-stone-200 px-3.5 py-1.5 rounded-full font-medium">📅 考察期：2026 年 10 月中旬金秋</span>
+      <span class="bg-stone-200 px-3.5 py-1.5 rounded-full font-medium">📍 地點：西安市、咸陽市、寶雞市、渭南市、延安市</span>
+      <span class="bg-stone-200 px-3.5 py-1.5 rounded-full font-medium">🎯 資格：18–45 歲持台胞證青年（主辦方全程落地全免）</span>
+      <span class="bg-stone-200 px-3.5 py-1.5 rounded-full font-medium">🤝 共同盛會：第七屆陝台會開幕式</span>
+    </div>
+  </header>
+
+  <!-- 錨點切換導覽列 -->
+  <nav class="tab-bar">
+    <button class="tab-btn active" onclick="switchSection('overview')">📌 雙團全景概覽與定位比對</button>
+    <button class="tab-btn" onclick="switchSection('tickets')">🎫 景點門票牌價與價值試算</button>
+    <button class="tab-btn" onclick="switchSection('schedule')">📅 每日日程雙排對照表</button>
+    <button class="tab-btn" onclick="switchSection('routes')">🗺️ 真實地圖標點與順序動線</button>
+    <button class="tab-btn" onclick="switchSection('guide')">💡 團別挑選建議與行前須知</button>
+  </nav>
+
+  <!-- 區塊一：全景概覽 -->
+  <section id="sec-overview" class="block space-y-6">
+    <div class="metric-grid">
+      <div class="metric-card">
+        <div class="metric-label">A 團 · 長安同行青創團</div>
+        <div class="metric-num">10 天</div>
+        <div class="text-base text-stone-600 mt-1">10/11 ~ 10/20（以大賽決賽、祭祖、高精工業為骨幹）</div>
+      </div>
+      <div class="metric-card olive">
+        <div class="metric-label">B 團 · 台青創客三秦行 (AI營)</div>
+        <div class="metric-num">10 天</div>
+        <div class="text-base text-stone-600 mt-1">10/13 ~ 10/22（限額 25 名，短視頻、漢服打卡、電商訓練）</div>
+      </div>
+      <div class="metric-card gold">
+        <div class="metric-label">全行程景點涵蓋</div>
+        <div class="metric-num">24 個</div>
+        <div class="text-base text-stone-600 mt-1">含世界文化遺產、國家一級博物館、唐宋明帝陵與非遺聚落</div>
+      </div>
+      <div class="metric-card slate">
+        <div class="metric-label">雙團人均門票體驗市值</div>
+        <div class="metric-num">¥780 ~ ¥940</div>
+        <div class="text-base text-stone-600 mt-1">主辦全免贊助（含《赳赳大秦》演出或全套漢服妝造拍攝）</div>
+      </div>
+    </div>
+
+    <!-- 核心定位差異表 -->
+    <div class="card">
+      <div class="card-title">⚖️ 兩大考察團核心定位與差異矩陣</div>
+      <div class="table-container">
+        <table class="custom-table">
+          <thead>
+            <tr>
+              <th style="min-width: 140px;">維度比較</th>
+              <th style="min-width: 300px;">【A 團】“長安·同行”兩岸青年創新創業代表團</th>
+              <th style="min-width: 300px;">【B 團】第四季台青創客三秦行：AI 創新創業訓練營</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td><strong>主要目標客群</strong></td>
+              <td>創客參賽選手、新創企業負責人、硬科技創業者、具備成型專案欲進入大陸市場融資對接之青年。</td>
+              <td>自媒體創作者、短視頻剪輯者、文旅網紅、新零售電商經營者、限額 25 名（會做短視頻者優先錄取）。</td>
+            </tr>
+            <tr>
+              <td><strong>核心任務架構</strong></td>
+              <td><strong>2 天整天大賽決賽路演</strong> ＋ 陝台會經貿對接 ＋ 寶雞高精傳感器企業參訪 ＋ 延安黃陵重陽拜祖盛典。</td>
+              <td><strong>AI 賦能創新培訓</strong> ＋ 武功縣電商中心實戰 ＋ 漢服變裝攝影與短視頻採風 ＋ 杜康酒文化調研。</td>
+            </tr>
+            <tr>
+              <td><strong>文化體驗深度</strong></td>
+              <td>重陽民祭黃帝典禮（國家級尋根盛典）、西安碑林博物館（書法原典）、觀賞大型全景演藝《赳赳大秦》、廣仁寺與大興善寺。</td>
+              <td>台胞驛站免費漢服妝造拍攝、大唐十二時辰沉浸市坊、大慈恩寺與大雁塔、西安明城牆永寧門、唐泰陵野外神道石刻。</td>
+            </tr>
+            <tr>
+              <td><strong>地理跨度與節奏</strong></td>
+              <td>跨度極大（西安 ↔ 寶雞約 170km；西安 ↔ 延安黃陵約 180km），長途拉車較多，視野宏闊，行程厚重扎實。</td>
+              <td>以大西安文旅圈為主，外延至渭南白水與蒲城（約 120km）及咸陽武功（約 70km），注重拍攝節奏與出片時間。</td>
+            </tr>
+            <tr>
+              <td><strong>共同交集亮點</strong></td>
+              <td colspan="2" class="text-center bg-amber-50 text-amber-900 font-semibold py-3">
+                ★ 10/15 上午共同出席：第七屆海峽兩岸（陝西）經貿科技合作大會（陝台會）開幕式<br>
+                ★ 世界文化遺產同訪：秦始皇帝陵博物院（兵馬俑）、華清宮、陝西歷史博物館、西安博物院（小雁塔）、唐昭陵、袁家村
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+
+      <details class="reveal">
+        <summary>點擊展開：兩團活動主辦背景與陝台交流歷史脈絡</summary>
+        <div class="text-base text-stone-700 space-y-3 mt-3 pt-3 border-t border-stone-200">
+          <p>
+            「海峽兩岸（陝西）經貿科技合作大會」（簡稱陝台會）自創辦以來已歷經七屆，是陝西省規格最高、覆蓋層面最廣的對台經貿科技交流品牌。每年金秋十月配合九九重陽祭祖大典，匯聚台商代表、科技產業負責人與兩岸青年創業者。
+          </p>
+          <p>
+            本屆同步展開「長安·同行」青創賽決賽（A 團）與「台青創客三秦行 AI 營」（B 團），前者偏重招商引智、專案融資落地與高新製造對接；後者順應新媒體傳播趨勢，聚焦短視頻內容共創、文旅 IP 傳播與鄉村振興電商。
+          </p>
+        </div>
+      </details>
+    </div>
+  </section>
+
+  <!-- 區塊二：門票盤點 -->
+  <section id="sec-tickets" class="hidden space-y-6">
+    <div class="card">
+      <div class="card-title">🎫 所有涉及景點門票牌價與預約規格總盤點</div>
+      <p class="text-base text-stone-600 mb-4 prose-text">
+        以下依景點性質與票價結構逐一整理。雖然兩團皆為受邀落地全額接待（學員無需自付門票），但清楚掌握各景點的市場收費、預約機制與文化含金量，有助於評估兩團的福利價值。
+      </p>
+
+      <div class="table-container">
+        <table class="custom-table">
+          <thead>
+            <tr>
+              <th style="min-width: 180px;">景點／參訪點全稱</th>
+              <th style="min-width: 120px;">行政區位</th>
+              <th style="min-width: 100px;">所屬行程</th>
+              <th style="min-width: 110px;">市場全票價</th>
+              <th style="min-width: 130px;">收費／預約性質</th>
+              <th style="min-width: 250px;">亮點特色與參訪說明</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td><strong>秦始皇帝陵博物院</strong></td>
+              <td>西安市臨潼區</td>
+              <td><span class="tag tag-both">雙團皆訪</span></td>
+              <td><span class="tag tag-price">¥120</span></td>
+              <td>收費景點 · 實名預約</td>
+              <td>世界第八大奇蹟，含一二三號兵馬俑坑、銅車馬博物館及麗山園接駁車。</td>
+            </tr>
+            <tr>
+              <td><strong>華清宮（華清池·驪山）</strong></td>
+              <td>西安市臨潼區</td>
+              <td><span class="tag tag-both">雙團皆訪</span></td>
+              <td><span class="tag tag-price">¥120</span></td>
+              <td>收費景點 · 刷證入園</td>
+              <td>唐代皇家溫泉行宮御湯遺址、西安事變五間廳與兵諫亭。</td>
+            </tr>
+            <tr>
+              <td><strong>《赳赳大秦》大型演藝</strong></td>
+              <td>西咸新區</td>
+              <td><span class="tag tag-a">A 團獨享</span></td>
+              <td><span class="tag tag-price">¥298 ~ 380</span></td>
+              <td>商業演出 · 定位座席</td>
+              <td>全球首創行進式全景沉浸劇場，以雲夢秦簡「黑夫木牘」為主線，觀眾席隨軌道移轉。</td>
+            </tr>
+            <tr>
+              <td><strong>台胞驛站（漢服妝造拍攝）</strong></td>
+              <td>西安市區</td>
+              <td><span class="tag tag-b">B 團獨享</span></td>
+              <td><span class="tag tag-price">約 ¥298</span></td>
+              <td>體驗服務 · 專屬贊助</td>
+              <td>含全套精緻唐風服飾租賃、專業面容髮髻妝造、以及專業定點寫真拍攝。</td>
+            </tr>
+            <tr>
+              <td><strong>西安城牆（永寧門南門）</strong></td>
+              <td>西安市碑林區</td>
+              <td><span class="tag tag-b">B 團獨享</span></td>
+              <td><span class="tag tag-price">¥120</span></td>
+              <td>收費景點 · 刷證登城</td>
+              <td>中國保存最完整的古代城垣，南門永寧門為古迎賓最高禮遇之門。</td>
+            </tr>
+            <tr>
+              <td><strong>黃帝陵景區（重陽民祭典禮）</strong></td>
+              <td>延安市黃陵縣</td>
+              <td><span class="tag tag-a">A 團獨享</span></td>
+              <td><span class="tag tag-price">¥90</span></td>
+              <td>收費景點 · 典禮特邀</td>
+              <td>中華民族始祖軒轅黃帝陵寢所在地，天下第一陵，九九重陽公祭盛典。</td>
+            </tr>
+            <tr>
+              <td><strong>大唐十二時辰主題街區</strong></td>
+              <td>西安市雁塔區</td>
+              <td><span class="tag tag-b">B 團獨享</span></td>
+              <td><span class="tag tag-price">¥88</span></td>
+              <td>室內主題街區門票</td>
+              <td>全唐風沉浸式室內街市，還原長安坊市生活、極樂之宴與 NPC 互動演藝。</td>
+            </tr>
+            <tr>
+              <td><strong>西安碑林博物館</strong></td>
+              <td>西安市碑林區</td>
+              <td><span class="tag tag-a">A 團獨享</span></td>
+              <td><span class="tag tag-price">¥85</span></td>
+              <td>收費景點 · 新館落成</td>
+              <td>中國書法藝術聖殿，收藏漢魏至明清歷代名碑墓志數千方、昭陵六駿其四。</td>
+            </tr>
+            <tr>
+              <td><strong>大明宮國家遺址公園</strong></td>
+              <td>西安市新城區</td>
+              <td><span class="tag tag-b">B 團獨享</span></td>
+              <td><span class="tag tag-price">¥60</span></td>
+              <td>收費核心區 · 園區免費</td>
+              <td>收費區包含丹鳳門遺址博物館、含元殿遺址、大明宮微縮景觀與遺址博物館。</td>
+            </tr>
+            <tr>
+              <td><strong>大慈恩寺（大雁塔）</strong></td>
+              <td>西安市雁塔區</td>
+              <td><span class="tag tag-b">B 團獨享</span></td>
+              <td><span class="tag tag-price">¥40 (+25)</span></td>
+              <td>宗教景點 · 登塔另計</td>
+              <td>玄奘法師西行取經歸國譯經聖地，唯識宗祖庭。登大雁塔另收 25 元。</td>
+            </tr>
+            <tr>
+              <td><strong>唐昭陵（博物館＋陵山）</strong></td>
+              <td>咸陽市禮泉縣</td>
+              <td><span class="tag tag-both">雙團皆訪</span></td>
+              <td><span class="tag tag-price">¥40</span></td>
+              <td>文保景區（各20元）</td>
+              <td>唐太宗李世民與長孫皇后合葬陵，依九嵕山為陵，陪葬墓群與昭陵博物館碑石。</td>
+            </tr>
+            <tr>
+              <td><strong>陝西歷史博物館</strong></td>
+              <td>西安市雁塔區</td>
+              <td><span class="tag tag-both">雙團皆訪</span></td>
+              <td><span class="tag tag-price">免費 (特展¥30)</span></td>
+              <td>免費預約 · 特展收費</td>
+              <td>中央地方共建國家級博物館。基本陳列免票（極難搶），大唐遺寶特展 30 元。</td>
+            </tr>
+            <tr>
+              <td><strong>陝西考古博物館</strong></td>
+              <td>西安市長安區</td>
+              <td><span class="tag tag-both">雙團皆訪</span></td>
+              <td><span class="tag tag-free">免費預約</span></td>
+              <td>免費開放 · 限額實名</td>
+              <td>全國首座考古專題博物館，展示石峁、周原、秦始皇陵、隋唐田野考古全鏈條。</td>
+            </tr>
+            <tr>
+              <td><strong>西安博物院（小雁塔）</strong></td>
+              <td>西安市碑林區</td>
+              <td><span class="tag tag-both">雙團皆訪</span></td>
+              <td><span class="tag tag-free">免費預約</span></td>
+              <td>免費開放 · 實名預約</td>
+              <td>唐代薦福寺與小雁塔所在地，館園一體，長安古都金玉與佛教藝術。</td>
+            </tr>
+            <tr>
+              <td><strong>寶雞青銅器博物院</strong></td>
+              <td>寶雞市金台區</td>
+              <td><span class="tag tag-a">A 團獨享</span></td>
+              <td><span class="tag tag-free">免費預約</span></td>
+              <td>國家一級博物館</td>
+              <td>中國最大青銅器專題博物館，鎮館之寶何尊銘文首現「宅茲中國」。</td>
+            </tr>
+            <tr>
+              <td><strong>寶雞麥克傳感器公司</strong></td>
+              <td>寶雞市高新區</td>
+              <td><span class="tag tag-a">A 團獨享</span></td>
+              <td><span class="tag tag-free">免費參訪</span></td>
+              <td>企業參觀 · 官方接待</td>
+              <td>工業壓力傳感器領頭羊，展示微機電高新科技在物聯網與工業自動化之應用。</td>
+            </tr>
+            <tr>
+              <td><strong>白水杜康酒廠與博物館</strong></td>
+              <td>渭南市白水縣</td>
+              <td><span class="tag tag-b">B 團獨享</span></td>
+              <td><span class="tag tag-free">免費參訪 (市價30)</span></td>
+              <td>工業文博 · 研學接待</td>
+              <td>酒祖杜康造酒故里，展示非遺古法造酒工藝與白水「四聖文化」。</td>
+            </tr>
+            <tr>
+              <td><strong>唐泰陵（唐玄宗陵寢）</strong></td>
+              <td>渭南市蒲城縣</td>
+              <td><span class="tag tag-b">B 團獨享</span></td>
+              <td><span class="tag tag-free">免費開放</span></td>
+              <td>全國重點文物保護單位</td>
+              <td>開元盛世締造者唐玄宗李隆基陵墓，依金粟山為陵，保存壯觀的神道翼馬石雕。</td>
+            </tr>
+            <tr>
+              <td><strong>大興善寺</strong></td>
+              <td>西安市雁塔區</td>
+              <td><span class="tag tag-a">A 團獨享</span></td>
+              <td><span class="tag tag-free">免費開放</span></td>
+              <td>隋唐皇家第一寺</td>
+              <td>密宗（真言宗）祖庭，隋唐長安三大譯經場之一，環境幽雅清淨。</td>
+            </tr>
+            <tr>
+              <td><strong>廣仁寺</strong></td>
+              <td>西安市蓮湖區</td>
+              <td><span class="tag tag-a">A 團獨享</span></td>
+              <td><span class="tag tag-free">免費登記</span></td>
+              <td>陝西唯一藏傳佛教寺</td>
+              <td>康熙皇帝敕建，供奉文成公主進藏帶入之佛祖十二歲等身像珍貴複本。</td>
+            </tr>
+            <tr>
+              <td><strong>香積寺遺址</strong></td>
+              <td>西安市長安區</td>
+              <td><span class="tag tag-b">B 團獨享</span></td>
+              <td><span class="tag tag-free">免費開放</span></td>
+              <td>終南山佛教祖庭</td>
+              <td>淨土宗祖庭，善導大師舍利塔，唐詩名句「不知香積寺，數里入雲峰」所在地。</td>
+            </tr>
+            <tr>
+              <td><strong>袁家村關中民俗村</strong></td>
+              <td>咸陽市禮泉縣</td>
+              <td><span class="tag tag-both">雙團皆訪</span></td>
+              <td><span class="tag tag-free">免費進村</span></td>
+              <td>國家 4A 景區</td>
+              <td>陝西省對台交流基地，關中非遺手作與美食聚集地，鄉村振興示範旗艦。</td>
+            </tr>
+            <tr>
+              <td><strong>武功電商培訓中心</strong></td>
+              <td>咸陽市武功縣</td>
+              <td><span class="tag tag-b">B 團獨享</span></td>
+              <td><span class="tag tag-free">免費交流</span></td>
+              <td>電商示範園區</td>
+              <td>全國聞名的「武功電商模式」（買西北、賣全國），農村電商生態與選品。</td>
+            </tr>
+            <tr>
+              <td><strong>永興坊 / 回民街 / 不夜城</strong></td>
+              <td>西安市核心區</td>
+              <td><span class="tag tag-both">開放街區</span></td>
+              <td><span class="tag tag-free">免費開放</span></td>
+              <td>夜遊市坊景區</td>
+              <td>永興坊非遺美食、回民街坊清真小吃、大唐不夜城唐風燈光秀與非遺巡演。</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+
+      <!-- 門票試算小結 -->
+      <div class="grid grid-cols-1 md:grid-cols-2 gap-5 mt-6">
+        <div class="callout">
+          <div class="font-bold text-lg text-stone-900 mb-2">【A 團】門票與演出市值估算：約 ¥783 ~ ¥865 / 人</div>
+          <div class="text-base text-stone-700 space-y-1.5">
+            • 兵馬俑 (120) + 華清宮 (120) + 《赳赳大秦》演出 (298) + 黃帝陵 (90) + 碑林 (85) + 昭陵 (40) + 陝歷博特展估 (30) = <strong>¥783</strong>。<br>
+            • 其餘 10 個景點/工廠/寺廟皆為免費或官方公函預約通道。
+          </div>
+        </div>
+        <div class="callout callout-olive">
+          <div class="font-bold text-lg text-stone-900 mb-2">【B 團】門票與體驗市值估算：約 ¥941 ~ ¥966 / 人</div>
+          <div class="text-base text-stone-700 space-y-1.5">
+            • 兵馬俑 (120) + 華清宮 (120) + 台胞驛站漢服全套妝造拍攝 (298) + 西安城牆 (120) + 大唐十二時辰 (88) + 大明宮 (60) + 慈恩寺登塔 (65) + 昭陵 (40) + 陝歷博特展估 (30) = <strong>¥941</strong>。<br>
+            • 含大量短視頻高出片率商業收費場景，主辦方全額贊助。
+          </div>
+        </div>
+      </div>
+
+      <details class="reveal">
+        <summary>點擊展開：景區免票與預約特別說明（台胞證核驗規則）</summary>
+        <div class="text-base text-stone-700 space-y-2 mt-3 pt-3 border-t border-stone-200">
+          <p>
+            1. <strong>實名核驗制度</strong>：陝西歷史博物館、秦始皇帝陵博物院與陝西考古博物館均實施嚴格之實名預約閘機驗證。台胞學員須以台胞證正本走人工核驗通道刷錄進場。
+          </p>
+          <p>
+            2. <strong>特約參訪綠色通道</strong>：兩團由陝西省委台辦或相關主辦單位統一備案出具公函，參訪團體享有專屬大巴泊車位、專職金牌講解員隨團導覽、以及陝歷博/兵馬俑免排隊通道禮遇。
+          </p>
+        </div>
+      </details>
+    </div>
+  </section>
+
+  <!-- 區塊三：每日日程雙排對照表 -->
+  <section id="sec-schedule" class="hidden space-y-6">
+    <div class="card">
+      <div class="card-title">📅 雙團每日日程同日對照表（10/11 ~ 10/22）</div>
+      <p class="text-base text-stone-600 mb-4 prose-text">
+        左右雙欄並排對照兩團每日的時間安排與活動細節。特別標示<strong>黃底框為雙團共同重疊或同訪點</strong>，清楚掌握何時同行、何時各自遠征。
+      </p>
+
+      <div class="space-y-4">
+        <!-- 10/11 -->
+        <div class="day-row">
+          <div class="day-badge">10月11日<br><span class="text-sm text-stone-500 font-normal">星期日</span></div>
+          <div class="day-col a-side">
+            <span class="tag tag-a mb-2">A 團 · 接機日</span>
+            <div class="text-base font-semibold text-stone-900">全天 接機報到</div>
+            <div class="text-sm text-stone-600 mt-1">學員陸續抵達西安咸陽國際機場，入駐西安市區接待酒店。</div>
+          </div>
+          <div class="day-col b-side opacity-60">
+            <span class="tag tag-b mb-2">B 團 · 尚未開營</span>
+            <div class="text-base text-stone-500">訓練營學員尚在台灣或個別準備中。</div>
+          </div>
+        </div>
+
+        <!-- 10/12 -->
+        <div class="day-row">
+          <div class="day-badge">10月12日<br><span class="text-sm text-stone-500 font-normal">星期一</span></div>
+          <div class="day-col a-side">
+            <span class="tag tag-a mb-2">A 團 · 創業大賽 Day 1</span>
+            <div class="text-base font-semibold text-stone-900">全天 “長安·同行”兩岸青創大賽決賽</div>
+            <div class="text-sm text-stone-600 mt-1">參賽項目抽籤分組、選手封閉式路演答辯、評委現場評分交流。</div>
+          </div>
+          <div class="day-col b-side opacity-60">
+            <span class="tag tag-b mb-2">B 團 · 尚未開營</span>
+            <div class="text-base text-stone-500">營期前夕。</div>
+          </div>
+        </div>
+
+        <!-- 10/13 -->
+        <div class="day-row">
+          <div class="day-badge">10月13日<br><span class="text-sm text-stone-500 font-normal">星期二</span></div>
+          <div class="day-col a-side">
+            <span class="tag tag-a mb-2">A 團 · 創業大賽 Day 2</span>
+            <div class="text-base font-semibold text-stone-900">全天 “長安·同行”兩岸青創大賽決賽</div>
+            <div class="text-sm text-stone-600 mt-1">總決賽衝刺、評審總結點評、投融資意向簽約及頒獎籌備。</div>
+          </div>
+          <div class="day-col b-side">
+            <span class="tag tag-b mb-2">B 團 · 接機日</span>
+            <div class="text-base font-semibold text-stone-900">全天 接機報到入營</div>
+            <div class="text-sm text-stone-600 mt-1">25 位台青抵達西安，領取營員手冊與設備物資，辦理入住手續。</div>
+          </div>
+        </div>
+
+        <!-- 10/14 -->
+        <div class="day-row">
+          <div class="day-badge">10月14日<br><span class="text-sm text-stone-500 font-normal">星期三</span></div>
+          <div class="day-col a-side">
+            <span class="tag tag-a mb-2">A 團 · 博覽盛唐</span>
+            <div class="text-base text-stone-800 space-y-1.5">
+              <div><span class="time-slot">09:00</span> 參訪 <strong>西安碑林博物館</strong></div>
+              <div><span class="time-slot">14:30</span> 參訪 <strong>陝西歷史博物館</strong> <span class="tag tag-both text-xs">同館參訪</span></div>
+              <div><span class="time-slot">19:30</span> 夜遊 <strong>大唐不夜城</strong></div>
+            </div>
+          </div>
+          <div class="day-col b-side">
+            <span class="tag tag-b mb-2">B 團 · 歷史與城牆</span>
+            <div class="text-base text-stone-800 space-y-1.5">
+              <div><span class="time-slot">上午</span> 參訪 <strong>陝西歷史博物館</strong> <span class="tag tag-both text-xs">同館參訪</span></div>
+              <div><span class="time-slot">下午</span> 登上 <strong>西安城牆永寧門</strong>，漫步 <strong>永興坊</strong></div>
+            </div>
+          </div>
+        </div>
+
+        <!-- 10/15 -->
+        <div class="day-row">
+          <div class="day-badge">10月15日<br><span class="text-sm text-stone-500 font-normal">星期四</span></div>
+          <div class="day-col a-side overlap">
+            <span class="tag tag-both mb-2">⭐ 雙團上午共同合流</span>
+            <div class="text-base text-stone-800 space-y-1.5">
+              <div><span class="time-slot">10:00</span> <strong>第七屆海峽兩岸(陝西)經貿科技合作大會開幕式</strong></div>
+              <div class="text-sm text-amber-800 mt-1">【合流】兩團代表齊聚大會主會場，共商科技經貿合作與產業簽約。</div>
+              <hr class="my-2 border-stone-200">
+              <div><span class="time-slot">14:00</span> 參訪 <strong>大興善寺、廣仁寺</strong></div>
+              <div><span class="time-slot">19:45</span> 觀看 <strong>《赳赳大秦》大型演藝</strong></div>
+            </div>
+          </div>
+          <div class="day-col b-side overlap">
+            <span class="tag tag-both mb-2">⭐ 雙團上午共同合流</span>
+            <div class="text-base text-stone-800 space-y-1.5">
+              <div><span class="time-slot">上午</span> <strong>第七屆海峽兩岸(陝西)經貿科技合作大會開幕式</strong></div>
+              <div class="text-sm text-amber-800 mt-1">【合流】與各界嘉賓出席開幕盛典與專題論壇。</div>
+              <hr class="my-2 border-stone-200">
+              <div><span class="time-slot">下午</span> 參訪 <strong>大明宮國家遺址公園</strong></div>
+            </div>
+          </div>
+        </div>
+
+        <!-- 10/16 -->
+        <div class="day-row">
+          <div class="day-badge">10月16日<br><span class="text-sm text-stone-500 font-normal">星期五</span></div>
+          <div class="day-col a-side">
+            <span class="tag tag-a mb-2">A 團 · 寶雞硬科技青銅行</span>
+            <div class="text-base text-stone-800 space-y-1.5">
+              <div><span class="time-slot">10:00</span> 考察 <strong>寶雞麥克傳感器股份有限公司</strong></div>
+              <div><span class="time-slot">14:00</span> 參訪 <strong>寶雞青銅器博物院</strong>（何尊出土地）</div>
+            </div>
+          </div>
+          <div class="day-col b-side">
+            <span class="tag tag-b mb-2">B 團 · 漢服變裝與沉浸市坊</span>
+            <div class="text-base text-stone-800 space-y-1.5">
+              <div><span class="time-slot">上午</span> 台胞驛站（<strong>免費妝造、漢服寫真拍攝</strong>）</div>
+              <div><span class="time-slot">下午</span> <strong>大唐十二時辰、大慈恩寺、大唐不夜城非遺展演</strong></div>
+            </div>
+          </div>
+        </div>
+
+        <!-- 10/17 -->
+        <div class="day-row">
+          <div class="day-badge">10月17日<br><span class="text-sm text-stone-500 font-normal">星期六</span></div>
+          <div class="day-col a-side">
+            <span class="tag tag-a mb-2">A 團 · 咸陽禮泉唐風鄉村</span>
+            <div class="text-base text-stone-800 space-y-1.5">
+              <div><span class="time-slot">09:30</span> 參訪 <strong>陝西對台交流基地袁家村</strong> <span class="tag tag-both text-xs">同地不同時</span></div>
+              <div><span class="time-slot">14:00</span> 參訪 <strong>唐太宗昭陵</strong></div>
+              <div class="text-sm text-stone-500 mt-1">（註：A 團原始通報將此日誤標為星期一，按序排於週六）</div>
+            </div>
+          </div>
+          <div class="day-col b-side">
+            <span class="tag tag-b mb-2">B 團 · 電商培訓與昭陵探訪</span>
+            <div class="text-base text-stone-800 space-y-1.5">
+              <div><span class="time-slot">上午</span> 咸陽武功縣 <strong>武功電商培訓中心</strong></div>
+              <div><span class="time-slot">下午</span> 參訪 <strong>唐太宗昭陵、袁家村</strong> <span class="tag tag-both text-xs">同地不同時</span></div>
+            </div>
+          </div>
+        </div>
+
+        <!-- 10/18 -->
+        <div class="day-row">
+          <div class="day-badge">10月18日<br><span class="text-sm text-stone-500 font-normal">星期日</span></div>
+          <div class="day-col a-side">
+            <span class="tag tag-a mb-2">A 團 · 延安黃陵重陽祭祖</span>
+            <div class="text-base text-stone-800 space-y-1.5">
+              <div><span class="time-slot">09:45</span> <strong>參加重陽民祭軒轅黃帝典禮</strong></div>
+              <div><span class="time-slot">16:00</span> 返回西安參訪 <strong>永興坊、回民街</strong></div>
+            </div>
+          </div>
+          <div class="day-col b-side">
+            <span class="tag tag-b mb-2">B 團 · 渭南酒聖與唐泰陵</span>
+            <div class="text-base text-stone-800 space-y-1.5">
+              <div><span class="time-slot">上午</span> <strong>四聖故里白水杜康博物館·酒廠</strong></div>
+              <div><span class="time-slot">下午</span> 參訪 <strong>唐泰陵（唐玄宗李隆基陵寢）</strong></div>
+            </div>
+          </div>
+        </div>
+
+        <!-- 10/19 -->
+        <div class="day-row">
+          <div class="day-badge">10月19日<br><span class="text-sm text-stone-500 font-normal">星期一</span></div>
+          <div class="day-col a-side overlap">
+            <span class="tag tag-both mb-2">⭐ 臨潼秦漢文明同日遊</span>
+            <div class="text-base text-stone-800 space-y-1.5">
+              <div><span class="time-slot">09:00</span> 參訪 <strong>秦始皇帝陵博物院（兵馬俑）</strong></div>
+              <div><span class="time-slot">14:00</span> 參訪 <strong>華清宮（華清池·驪山）</strong></div>
+            </div>
+          </div>
+          <div class="day-col b-side overlap">
+            <span class="tag tag-both mb-2">⭐ 臨潼秦漢文明同日遊</span>
+            <div class="text-base text-stone-800 space-y-1.5">
+              <div><span class="time-slot">上午</span> 參訪 <strong>秦始皇陵兵馬俑館</strong></div>
+              <div><span class="time-slot">下午</span> 參訪 <strong>華清宮</strong></div>
+            </div>
+          </div>
+        </div>
+
+        <!-- 10/20 -->
+        <div class="day-row">
+          <div class="day-badge">10月20日<br><span class="text-sm text-stone-500 font-normal">星期二</span></div>
+          <div class="day-col a-side">
+            <span class="tag tag-a mb-2">A 團 · 考察尾聲或返程</span>
+            <div class="text-base text-stone-800 space-y-1.5">
+              <div><span class="time-slot">09:00</span> 參訪 <strong>西安博物院</strong> / <span class="time-slot">14:30</span> <strong>陝西考古博物館</strong></div>
+              <div class="text-sm text-stone-500 mt-1">（註：A 團原始通報表定此日全天返程，或完成南郊文博後賦歸）</div>
+            </div>
+          </div>
+          <div class="day-col b-side">
+            <span class="tag tag-b mb-2">B 團 · 南郊考古與祖庭</span>
+            <div class="text-base text-stone-800 space-y-1.5">
+              <div><span class="time-slot">上午</span> 參訪 <strong>陝西考古博物館</strong></div>
+              <div><span class="time-slot">下午</span> 參訪 終南山麓 <strong>香積寺遺址</strong></div>
+            </div>
+          </div>
+        </div>
+
+        <!-- 10/21 -->
+        <div class="day-row">
+          <div class="day-badge">10月21日<br><span class="text-sm text-stone-500 font-normal">星期三</span></div>
+          <div class="day-col a-side opacity-60">
+            <span class="tag tag-a mb-2">A 團 · 營期結束</span>
+            <div class="text-base text-stone-500">代表團成員已陸續返台或接續商務拜訪。</div>
+          </div>
+          <div class="day-col b-side">
+            <span class="tag tag-b mb-2">B 團 · 成果發表與結業</span>
+            <div class="text-base text-stone-800 space-y-1.5">
+              <div><span class="time-slot">上午</span> 參訪 <strong>西安博物院（小雁塔）</strong></div>
+              <div><span class="time-slot">下午</span> <strong>台青 AI 創新創業訓練營結業儀式</strong>（短視頻作品評選與證書頒發）</div>
+            </div>
+          </div>
+        </div>
+
+        <!-- 10/22 -->
+        <div class="day-row">
+          <div class="day-badge">10月22日<br><span class="text-sm text-stone-500 font-normal">星期四</span></div>
+          <div class="day-col a-side opacity-60">
+            <div class="text-base text-stone-400">已結束</div>
+          </div>
+          <div class="day-col b-side">
+            <span class="tag tag-b mb-2">B 團 · 圓滿送機</span>
+            <div class="text-base font-semibold text-stone-900">全天 返程送機</div>
+            <div class="text-sm text-stone-600 mt-1">專車接駁至西安咸陽國際機場，乘機返回台灣。</div>
+          </div>
+        </div>
+      </div>
+
+      <details class="reveal">
+        <summary>點擊展開：原始文字日程日期序號筆誤校勘解析</summary>
+        <div class="text-base text-stone-700 space-y-2 mt-3 pt-3 border-t border-stone-200">
+          <p>
+            在 A 團發布的原文字中，10 月 16 日出現了兩次：「10月16日（星期五）考察寶雞」與「10月16日（星期一）參訪袁家村」，後續日期亦顯示為「10月17日（星期二）秦始皇帝陵」。
+          </p>
+          <p>
+            經比對日曆（2026 年 10 月 11 日為星期日，10 月 16 日為星期五），後段日期實為校對打字排版跳號。實際考察路線應為順延之連貫行程，各景區營業日與大會會期（10/15 陝台會、10/18 重陽公祭黃帝陵）完全精準吻合。
+          </p>
+        </div>
+      </details>
+    </div>
+  </section>
+
+  <!-- 區塊四：真實地圖標點與順序動線（GOOGLE 地圖體驗） -->
+  <section id="sec-routes" class="hidden space-y-6">
+    <div class="card">
+      <div class="card-title">🗺️ 實際地圖景點標註與順序連線動線圖（類似 Google 地圖）</div>
+      <p class="text-base text-stone-600 mb-4 prose-text">
+        以下已將<strong>兩團全部 25 個活動地點</strong>精確標註於真實地理地圖上（依真實經緯度坐標）。點擊按鈕可即時切換<strong>「A 團動線（橘紅連線）」</strong>、<strong>「B 團動線（草綠連線）」</strong>或<strong>「雙團合流點」</strong>，亦可點擊右側視野按鈕快速放大至特定景區。點擊任何地圖圖釘即可查看詳細說明！
+      </p>
+
+      <!-- 地圖互動控制面板 -->
+      <div class="map-controls-panel">
+        <span class="font-bold text-sm text-stone-700 mr-2">動線切換：</span>
+        <button class="map-btn active" id="btn-show-all" onclick="filterMapRoutes('all')">🌟 顯示雙團全部動線</button>
+        <button class="map-btn" id="btn-show-a" onclick="filterMapRoutes('A')">🔴 僅看【A 團·青創代表團】順序動線</button>
+        <button class="map-btn" id="btn-show-b" onclick="filterMapRoutes('B')">🟢 僅看【B 團·AI 訓練營】順序動線</button>
+        <button class="map-btn" id="btn-show-both" onclick="filterMapRoutes('BOTH')">🟡 僅看【雙團共同／合流景點】</button>
+
+        <div class="w-full sm:w-auto sm:ml-auto flex flex-wrap gap-2 mt-2 sm:mt-0">
+          <span class="font-bold text-sm text-stone-700 self-center mr-1">視野切換：</span>
+          <button class="map-btn" onclick="zoomToView('all')">🌏 陝西全境</button>
+          <button class="map-btn" onclick="zoomToView('xian')">🏛️ 西安主城區</button>
+          <button class="map-btn" onclick="zoomToView('lintong')">🐎 臨潼兵馬俑</button>
+          <button class="map-btn" onclick="zoomToView('liquan')">🌾 禮泉昭陵與袁家村</button>
+        </div>
+      </div>
+
+      <!-- Leaflet 地圖容器 -->
+      <div id="travel-map"></div>
+
+      <!-- 地圖圖例與互動提示 -->
+      <div class="flex flex-wrap items-center justify-between gap-4 p-4 bg-stone-100 rounded-xl text-sm border border-stone-200 mt-4">
+        <div class="flex flex-wrap items-center gap-4">
+          <span class="font-bold text-stone-800">圖例說明：</span>
+          <span class="flex items-center gap-1.5"><span class="w-3.5 h-3.5 rounded-full bg-[#d97757] inline-block"></span> <strong>A 團專屬活動點</strong>（帶序號連線）</span>
+          <span class="flex items-center gap-1.5"><span class="w-3.5 h-3.5 rounded-full bg-[#788c5d] inline-block"></span> <strong>B 團專屬活動點</strong>（帶序號連線）</span>
+          <span class="flex items-center gap-1.5"><span class="w-3.5 h-3.5 rounded-full bg-[#b38236] inline-block"></span> <strong>雙團共同參訪點</strong>（兵馬俑、華清宮、陝台會等）</span>
+        </div>
+        <div class="text-stone-500">
+          💡 點擊下方行程卡，地圖將自動平移（Pan & Zoom）至該地點
+        </div>
+      </div>
+
+      <!-- 下方：逐日景點快速定位卡片（Google 地圖風格側欄/里程碑） -->
+      <div class="mt-6">
+        <div class="font-bold text-lg text-stone-900 mb-3">📍 景點定位導航庫（點擊立即在地圖上居中展開）：</div>
+        <div class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-6 gap-3" id="spot-cards-container">
+          <!-- JS 動態生成景點卡片 -->
+        </div>
+      </div>
+
+      <!-- 七大動線明細卡片 -->
+      <div class="mt-8 border-t border-stone-200 pt-6">
+        <div class="font-bold text-xl text-stone-900 mb-4">🛣️ 關中平原七大動線走廊速覽</div>
+        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+          <div class="card p-4">
+            <div class="text-base font-bold text-stone-900 mb-1">① 古都核心城牆與坊市軸</div>
+            <div class="text-sm text-stone-600 mb-2">市區內通勤（地鐵/專車 15~30 分鐘）</div>
+            <p class="text-sm text-stone-700">
+              串聯永寧門城牆、西安碑林、大明宮、永興坊與回民街。為關中帝都千年格局精華，B 團重在城垣與唐宮取景，A 團重在石刻文獻考證與回坊夜生活。
+            </p>
+          </div>
+
+          <div class="card p-4">
+            <div class="text-base font-bold text-stone-900 mb-1">② 曲江盛唐沉浸文旅軸</div>
+            <div class="text-sm text-stone-600 mb-2">雁塔區/曲江新區（車程 10~20 分鐘）</div>
+            <p class="text-sm text-stone-700">
+              匯聚陝西歷史博物館、大慈恩寺大雁塔、大唐十二時辰、大唐不夜城。為全中國唐風自媒體創作最強 IP 聚集地，B 團在此深度拍攝創作，A 團重在博物館珍寶與夜景。
+            </p>
+          </div>
+
+          <div class="card p-4">
+            <div class="text-base font-bold text-stone-900 mb-1">③ 東線臨潼大秦世界遺產軸</div>
+            <div class="text-sm text-stone-600 mb-2">西安市區 ↔ 臨潼區（連霍高速約 40km，45 分鐘）</div>
+            <p class="text-sm text-stone-700">
+              <strong>雙團共同必訪標配</strong>。上午參觀兵馬俑一二三號坑與銅車馬，下午移步華清宮御湯遺址與五間廳，一次走讀秦朝統一帝國與盛唐離宮文化。
+            </p>
+          </div>
+
+          <div class="card p-4">
+            <div class="text-base font-bold text-stone-900 mb-1">④ 西北咸陽禮泉唐陵鄉村軸</div>
+            <div class="text-sm text-stone-600 mb-2">西安市區 ↔ 禮泉/武功（福銀高速約 70km，1 小時）</div>
+            <p class="text-sm text-stone-700">
+              拜謁天下名陵唐太宗昭陵（九嵕山），隨後考察陝西省對台交流基地袁家村。B 團額外安排武功縣農村電商中心考察，學習「買西北、賣全國」之新零售體系。
+            </p>
+          </div>
+
+          <div class="card p-4">
+            <div class="text-base font-bold text-stone-900 mb-1">⑤ 西線寶雞硬科技與青銅軸（A團獨家）</div>
+            <div class="text-sm text-stone-600 mb-2">西安市區 ↔ 寶雞市（連霍高速約 170km，單程 2 小時）</div>
+            <p class="text-sm text-stone-700">
+              深入中國青銅器之鄉寶雞市。上午調研麥克傳感器高新科技實體，下午參訪寶雞青銅器博物院，觀賞鎮國之寶何尊。融合硬核工業與西周禮樂源頭。
+            </p>
+          </div>
+
+          <div class="card p-4">
+            <div class="text-base font-bold text-stone-900 mb-1">⑥ 東北渭南酒聖與唐泰陵軸（B團獨家）</div>
+            <div class="text-sm text-stone-600 mb-2">西安市區 ↔ 白水/蒲城（京昆/京豐高速約 120km，1.5 小時）</div>
+            <p class="text-sm text-stone-700">
+              參訪白水杜康古法釀造基地，體悟字聖倉頡與酒聖杜康文化；下午遠眺唐玄宗李隆基泰陵金粟山石刻，感受野外原生態唐十八陵之壯闊。
+            </p>
+          </div>
+
+          <div class="card p-4 md:col-span-2 lg:col-span-3">
+            <div class="text-base font-bold text-stone-900 mb-1">⑦ 北線延安黃陵中華始祖祭祀軸（A團獨家盛典）</div>
+            <div class="text-sm text-stone-600 mb-2">西安市區 ↔ 延安黃陵縣（包茂高速約 180km，單程 2.5 小時）</div>
+            <p class="text-sm text-stone-700">
+              A 團行程重頭戲！專程奔赴黃陵橋山，參加九九重陽民祭軒轅黃帝典禮。此典禮為海內外華人敬仰人文初祖之至高儀式，代表團作為特邀嘉賓登台瞻仰敬獻花籃。
+            </p>
+          </div>
+        </div>
+      </div>
+
+      <details class="reveal">
+        <summary>點擊展開：長途交通大巴調度與乘車補給建議</summary>
+        <div class="text-base text-stone-700 space-y-2 mt-3 pt-3 border-t border-stone-200">
+          <p>
+            1. <strong>高速休息站規劃</strong>：寶雞線經連霍高速武功/眉縣服務區；黃陵線經包茂高速洛川/黃陵服務區。單程超過 1.5 小時之長途路線，大巴每兩小時定點停靠服務區休整。
+          </p>
+          <p>
+            2. <strong>車載移動辦公與影音剪輯</strong>：B 團學員常需在車程中抓緊時間初剪短視頻或備份相機記憶卡，建議隨身攜帶 65W 以上行動電源及高速讀卡機。
+          </p>
+        </div>
+      </details>
+    </div>
+  </section>
+
+  <!-- 區塊五：選團決策指南與行前錦囊 -->
+  <section id="sec-guide" class="hidden space-y-6">
+    <div class="card">
+      <div class="card-title">💡 兩團挑選決策指南：我該報哪一個？</div>
+      <div class="grid grid-cols-1 md:grid-cols-2 gap-6 my-4">
+        <!-- A 團適合畫像 -->
+        <div class="border border-stone-200 rounded-xl p-6 bg-stone-50">
+          <div class="flex items-center gap-2 mb-3">
+            <span class="w-3.5 h-3.5 rounded-full bg-[#d97757]"></span>
+            <span class="font-bold text-lg text-stone-900">推薦選擇【A 團·長安同行青創團】的情境：</span>
+          </div>
+          <ul class="text-base text-stone-700 space-y-2.5 list-disc pl-5">
+            <li><strong>手上有創業項目／團隊：</strong>已進入大賽入圍名單或欲透過路演爭取投融資者。</li>
+            <li><strong>偏好高規格政商與工業考察：</strong>希望實地參訪硬科技製造業（寶雞傳感器）與出席重大招商合作大會。</li>
+            <li><strong>深度歷史文化與儀式感愛好者：</strong>極度嚮往<strong>黃陵重陽拜祖大典</strong>、書法聖殿<strong>碑林博物館</strong>與全球首部沉浸大劇<strong>《赳赳大秦》</strong>。</li>
+            <li><strong>體能與耐性較佳：</strong>能接受單程 2~2.5 小時的長途車程（寶雞、黃陵），換取廣袤壯麗的地理與人文視野。</li>
+          </ul>
+        </div>
+
+        <!-- B 團適合畫像 -->
+        <div class="border border-stone-200 rounded-xl p-6 bg-stone-50">
+          <div class="flex items-center gap-2 mb-3">
+            <span class="w-3.5 h-3.5 rounded-full bg-[#788c5d]"></span>
+            <span class="font-bold text-lg text-stone-900">推薦選擇【B 團·台青創客三秦行 AI 營】的情境：</span>
+          </div>
+          <ul class="text-base text-stone-700 space-y-2.5 list-disc pl-5">
+            <li><strong>短視頻／自媒體／內容創作者：</strong>具備剪輯技能、喜愛攝影、經營小紅書、IG、TikTok 或 YouTube 者（大會明言優先錄取）。</li>
+            <li><strong>熱愛古風美學與沉浸體驗：</strong>渴望享受<strong>免費精緻漢服全套化妝寫真</strong>，想在<strong>大唐十二時辰</strong>與大慈恩寺拍出百萬播放量爆款大片。</li>
+            <li><strong>對 AI 實務與電商帶貨有興趣：</strong>想了解大陸農村電商生態（武功模式）與 AI 工具在內容創作之落地實操。</li>
+            <li><strong>喜歡節奏緊湊出片率高：</strong>市區行程居多，車程適中，各點皆具備極強視覺衝擊與社交打卡傳播力。</li>
+          </ul>
+        </div>
+      </div>
+
+      <!-- 行前實用提醒 -->
+      <div class="callout callout-gold mt-6">
+        <div class="font-bold text-stone-900 text-lg mb-2">🎒 行前準備與在地必備提醒：</div>
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-5 text-sm text-stone-800">
+          <div>
+            <strong>1. 證件與預約核驗</strong><br>
+            • 必須備妥在有效期內的<strong>台胞證正本</strong>。<br>
+            • 大陸博物館（如兵馬俑、陝歷博、考古博）一律實名刷證入館，隨身不可離身。
+          </div>
+          <div>
+            <strong>2. 行動支付與網路</strong><br>
+            • 提前開通微信支付（WeChat Pay）或支付寶（Alipay）綁定台灣信用卡。<br>
+            • 下載高德地圖或百度地圖以便查閱市區與周邊位置。
+          </div>
+          <div>
+            <strong>3. 氣候與服裝裝備</strong><br>
+            • 10 月中旬陝西已入深秋，早晚溫差極大（約 9℃~22℃）。<br>
+            • 赴延安黃陵或寶雞風大較涼，強烈建議<strong>洋蔥式穿法</strong>並攜帶防風外套與好走的球鞋（日均步數常破萬步）。
+          </div>
+        </div>
+      </div>
+
+      <details class="reveal">
+        <summary>點擊展開：常用通訊軟體與兩岸視訊會議相容建議</summary>
+        <div class="text-base text-stone-700 space-y-2 mt-3 pt-3 border-t border-stone-200">
+          <p>
+            建議出發前備妥漫遊上網卡（台灣電信漫遊免翻牆，可正常使用 LINE、Google、Facebook 等工具）。若使用大陸本地 Wi-Fi，建議提前在手機安裝騰訊會議（Voov Meeting）與微信，以利隨時接收團隊集合廣播與資料傳輸。
+          </p>
+        </div>
+      </details>
+    </div>
+  </section>
+
+  <!-- 頁尾 -->
+  <footer class="mt-12 pt-6 border-t border-stone-300 text-sm text-stone-500 flex flex-wrap justify-between items-center">
+    <div>兩岸青年陝西考察雙團行程全覽報告 · 依官方發布日程精確對照編纂</div>
+    <div>落地全免接待 · 台胞證限定專案</div>
+  </footer>
+</div>
+
+<!-- ═══ Session 識別 ═══ -->
+<script>
+  window.VT_SESSION = { label: "陝西雙團比對", id: "9d2563cf", project: "兩岸青創" };
+</script>
+<script>
+  (function () {
+    const s = window.VT_SESSION || {};
+    if (!s.label) return;
+    const seed = s.id || s.label;
+    let hue = 7;
+    for (const c of seed) hue = (hue * 31 + c.charCodeAt(0)) % 360;
+    const col = "hsl(" + hue + " 58% 42%)";
+
+    document.title = s.label + " · " + document.title;
+
+    try {
+      const cv = document.createElement("canvas");
+      cv.width = cv.height = 64;
+      const g = cv.getContext("2d");
+      g.fillStyle = col;
+      if (g.roundRect) {
+        g.beginPath();
+        g.roundRect(2, 2, 60, 60, 14);
+        g.fill();
+      } else {
+        g.fillRect(2, 2, 60, 60);
+      }
+      g.fillStyle = "#fff";
+      g.font = '700 38px ui-sans-serif, system-ui, "PingFang TC"';
+      g.textAlign = "center";
+      g.textBaseline = "middle";
+      const ch = (s.label.match(/[A-Za-z0-9一-鿿]/) || ["?"])[0];
+      g.fillText(ch.toUpperCase(), 32, 36);
+      const link = document.createElement("link");
+      link.rel = "icon";
+      link.href = cv.toDataURL();
+      document.head.appendChild(link);
+    } catch (e) {}
+
+    const b = document.createElement("div");
+    b.className = "vt-session-badge";
+    b.style.setProperty("--vt-session-color", col);
+    b.innerHTML = '<span class="dot"></span><span class="lb"></span><span class="id"></span>';
+    b.querySelector(".lb").textContent = s.label;
+    b.querySelector(".id").textContent = s.id || "";
+    const host = document.querySelector(".wrap") || document.body;
+    host.insertBefore(b, host.firstChild);
+  })();
+
+  function switchSection(secId) {
+    const sections = ['overview', 'tickets', 'schedule', 'routes', 'guide'];
+    sections.forEach(function(s) {
+      const el = document.getElementById('sec-' + s);
+      if (el) {
+        if (s === secId) {
+          el.classList.remove('hidden');
+          el.classList.add('block');
+        } else {
+          el.classList.add('hidden');
+          el.classList.remove('block');
+        }
+      }
+    });
+
+    const buttons = document.querySelectorAll('.tab-btn');
+    buttons.forEach(function(btn, idx) {
+      if (sections[idx] === secId) {
+        btn.classList.add('active');
+      } else {
+        btn.classList.remove('active');
+      }
+    });
+
+    if (secId === 'routes' && window.leafletMapInstance) {
+      setTimeout(function() {
+        window.leafletMapInstance.invalidateSize();
+      }, 250);
+    }
+
+    window.scrollTo({ top: 120, behavior: 'smooth' });
+  }
+
+  // ══════════════════════════════════════════════════════
+  // 地圖資料與初始化邏輯（真實 Google 地圖連線體驗）
+  // ══════════════════════════════════════════════════════
+  const SPOTS_DATA = [
+    // A 團
+    { id: "A_BEILIN", name: "西安碑林博物館", group: "A", seqA: 2, seqB: null, lat: 34.2551, lng: 108.9515, day: "10/14 09:00", price: "¥85", desc: "書法名碑聖殿，收藏昭陵六駿其中四駿與歷代碑石" },
+    { id: "A_JIUJIU", name: "《赳赳大秦》沉浸演藝劇場", group: "A", seqA: 7, seqB: null, lat: 34.2720, lng: 108.8050, day: "10/15 19:45", price: "¥298~380", desc: "全球首部軌道行進式全景大劇，黑夫木牘家書主線" },
+    { id: "A_XINGSHAN", name: "大興善寺", group: "A", seqA: 5, seqB: null, lat: 34.2278, lng: 108.9442, day: "10/15 14:00", price: "免費開放", desc: "隋唐皇家第一寺，漢傳佛教密宗祖庭" },
+    { id: "A_GUANGREN", name: "廣仁寺", group: "A", seqA: 6, seqB: null, lat: 34.2718, lng: 108.9248, day: "10/15 15:30", price: "免費登記", desc: "陝西唯一藏傳佛教格魯派寺院，康熙敕建" },
+    { id: "A_MICROSENSOR", name: "寶雞麥克傳感器股份有限公司", group: "A", seqA: 8, seqB: null, lat: 34.3385, lng: 107.2410, day: "10/16 10:00", price: "免費參訪", desc: "高新科技壓力傳感器領軍實體，工業物聯網考察" },
+    { id: "A_BRONZE", name: "寶雞青銅器博物院", group: "A", seqA: 9, seqB: null, lat: 34.3470, lng: 107.1650, day: "10/16 14:00", price: "免費預約", desc: "國家一級博物館，鎮館之寶何尊銘文「宅茲中國」" },
+    { id: "A_HUANGLING", name: "延安黃陵黃帝陵（重陽民祭盛典）", group: "A", seqA: 12, seqB: null, lat: 35.5860, lng: 109.2680, day: "10/18 09:45", price: "¥90 (典禮特邀)", desc: "中華民族始祖軒轅黃帝陵寢，九九重陽祭祖大典" },
+    { id: "A_HUIMIN", name: "回民街（回坊美食街區）", group: "A", seqA: 14, seqB: null, lat: 34.2642, lng: 108.9392, day: "10/18 17:30", price: "免費開放", desc: "鐘鼓樓清真特色傳統街市，肉夾饃與羊肉泡饃聚集" },
+
+    // B 團
+    { id: "B_WALL", name: "西安城牆（永寧門南門）", group: "B", seqA: null, seqB: 3, lat: 34.2514, lng: 108.9429, day: "10/14 下午", price: "¥120", desc: "中國保存最完整的古代城垣，古迎賓最高禮儀之門" },
+    { id: "B_DAMING", name: "大明宮國家遺址公園", group: "B", seqA: null, seqB: 6, lat: 34.2902, lng: 108.9582, day: "10/15 下午", price: "¥60 (核心區)", desc: "盛唐「千宮之宮」，丹鳳門遺址博物館與微縮景觀" },
+    { id: "B_POST", name: "台胞驛站（免費漢服全套妝造拍攝）", group: "B", seqA: null, seqB: 7, lat: 34.2215, lng: 108.9550, day: "10/16 上午", price: "市價¥298(免)", desc: "全套精緻唐裝租賃、專業面容髮髻與定點寫真拍攝" },
+    { id: "B_TWELVE", name: "大唐十二時辰主題街區", group: "B", seqA: null, seqB: 8, lat: 34.2140, lng: 108.9665, day: "10/16 下午", price: "¥88", desc: "全唐風室內沉浸市坊，長安坊市與 NPC 互動演藝" },
+    { id: "B_CIEN", name: "大慈恩寺（大雁塔）", group: "B", seqA: null, seqB: 9, lat: 34.2198, lng: 108.9639, day: "10/16 下午", price: "¥40 (登塔+25)", desc: "玄奘西行取經歸國譯經聖地，佛教唯識宗祖庭" },
+    { id: "B_WUGONG", name: "武功電商培訓中心", group: "B", seqA: null, seqB: 11, lat: 34.2605, lng: 108.2050, day: "10/17 上午", price: "免費交流", desc: "農村電商標竿「武功模式」，買西北賣全國選品實戰" },
+    { id: "B_DUKANG", name: "白水杜康酒廠與博物館", group: "B", seqA: null, seqB: 14, lat: 35.1820, lng: 109.5880, day: "10/18 上午", price: "免費參訪", desc: "酒祖杜康造酒故里，非遺傳統釀酒工藝與四聖文化" },
+    { id: "B_TAILING", name: "唐泰陵（唐玄宗李隆基陵寢）", group: "B", seqA: null, seqB: 15, lat: 35.0340, lng: 109.6890, day: "10/18 下午", price: "免費開放", desc: "開元盛世締造者陵寢，依金粟山為陵，壯麗神道石雕群" },
+    { id: "B_XIANGJI", name: "香積寺遺址", group: "B", seqA: null, seqB: 19, lat: 34.1285, lng: 108.8950, day: "10/20 下午", price: "免費開放", desc: "終南山下淨土宗祖庭，善導大師舍利塔，唐詩名剎" },
+
+    // 雙團共同點
+    { id: "BOTH_AIRPORT", name: "西安咸陽國際機場", group: "BOTH", seqA: 1, seqB: 1, lat: 34.4471, lng: 108.7516, day: "10/11 & 10/13 接機", price: "專車接送", desc: "兩岸青年考察團集結與返程樞紐" },
+    { id: "BOTH_SXHIST", name: "陝西歷史博物館", group: "BOTH", seqA: 3, seqB: 2, lat: 34.2255, lng: 108.9538, day: "10/14 (A下/B上)", price: "免費 (特展¥30)", desc: "「古都明珠，華夏寶庫」，商周青銅、唐代金銀與壁畫" },
+    { id: "BOTH_NIGHT", name: "大唐不夜城", group: "BOTH", seqA: 4, seqB: 10, lat: 34.2120, lng: 108.9642, day: "10/14(A) & 10/16(B)", price: "免費開放", desc: "盛唐文化仿唐街區，不倒翁小姐姐、盛唐密盒等非遺展演" },
+    { id: "BOTH_SXTH", name: "第七屆陝台會主會場（陝西賓館會議中心）", group: "BOTH", seqA: 5, seqB: 5, lat: 34.1950, lng: 108.8870, day: "10/15 10:00 上午", price: "大會特邀", desc: "【雙團大會合流】兩岸經貿科技合作大會開幕式盛典" },
+    { id: "BOTH_YONGXING", name: "永興坊非遺文化街區", group: "BOTH", seqA: 13, seqB: 4, lat: 34.2655, lng: 108.9680, day: "10/14(B) & 10/18(A)", price: "免費開放", desc: "唐魏徵相府舊址，陝西非遺美食聚集地、摔碗酒起源" },
+    { id: "BOTH_YUANJIA", name: "袁家村（陝西對台交流基地）", group: "BOTH", seqA: 10, seqB: 13, lat: 34.6180, lng: 108.4980, day: "10/17 (雙團同日)", price: "免費進村", desc: "關中民俗第一村，鄉村振興旗艦與兩岸青創交流基地" },
+    { id: "BOTH_ZHAOLING", name: "唐太宗昭陵（九嵕山）", group: "BOTH", seqA: 11, seqB: 12, lat: 34.6025, lng: 108.4810, day: "10/17 (雙團同日)", price: "¥40 (館+陵)", desc: "唐太宗李世民與長孫皇后合葬陵，天下名陵，依山為陵" },
+    { id: "BOTH_BINGMAYONG", name: "秦始皇帝陵博物院（兵馬俑）", group: "BOTH", seqA: 15, seqB: 16, lat: 34.3841, lng: 109.2785, day: "10/19 上午 (雙團同日)", price: "¥120", desc: "世界文化遺產，秦始皇地下軍陣與銅車馬博物館" },
+    { id: "BOTH_HUAQING", name: "華清宮（華清池·驪山）", group: "BOTH", seqA: 16, seqB: 17, lat: 34.3642, lng: 109.2132, day: "10/19 下午 (雙團同日)", price: "¥120", desc: "唐代皇家溫泉行宮御湯遺址、兵諫亭、驪山勝境" },
+    { id: "BOTH_ARCHAEOLOGY", name: "陝西考古博物館", group: "BOTH", seqA: 18, seqB: 18, lat: 34.0535, lng: 108.9142, day: "10/20 (雙團同日)", price: "免費預約", desc: "全國首座考古專題博物館，展示重大田野考古發掘全貌" },
+    { id: "BOTH_XIANMUS", name: "西安博物院（小雁塔）", group: "BOTH", seqA: 17, seqB: 20, lat: 34.2388, lng: 108.9360, day: "10/20(A) & 10/21(B)", price: "免費預約", desc: "唐薦福寺小雁塔古蹟群，館園合一，長安古代文明" }
+  ];
+
+  let mapInstance = null;
+  let markersLayerGroup = null;
+  let polylineALayer = null;
+  let polylineBLayer = null;
+  const spotMarkersMap = {};
+
+  function initLeafletMap() {
+    if (mapInstance) return;
+
+    // 建立地圖中心（以大西安關中盆地為中心）
+    mapInstance = L.map('travel-map', {
+      center: [34.50, 108.85],
+      zoom: 8,
+      scrollWheelZoom: true
+    });
+    window.leafletMapInstance = mapInstance;
+
+    // 預設載入 Google 地圖圖資（全中文地名、國道省道與景點標註）
+    const googleTileLayer = L.tileLayer('https://mt{s}.google.com/vt/lyrs=m&x={x}&y={y}&z={z}', {
+      subdomains: ['0', '1', '2', '3'],
+      attribution: 'Google 地圖 ｜ 兩岸青年陝西考察動線圖',
+      maxZoom: 19
+    }).addTo(mapInstance);
+
+    const cartoTileLayer = L.tileLayer('https://{s}.basemaps.cartocdn.com/rastertiles/voyager/{z}/{x}/{y}{r}.png', {
+      subdomains: 'abcd',
+      attribution: 'CartoDB 導航底圖',
+      maxZoom: 19
+    });
+
+    const esriTileLayer = L.tileLayer('https://server.arcgisonline.com/ArcGIS/rest/services/World_Street_Map/MapServer/tile/{z}/{y}/{x}', {
+      attribution: 'Esri 世界街道圖',
+      maxZoom: 19
+    });
+
+    // 加入右上角底圖切換器
+    L.control.layers({
+      "🗺️ Google 地圖（推薦預設）": googleTileLayer,
+      "🎨 彩色高對比底圖": cartoTileLayer,
+      "🏛️ Esri 地理地圖": esriTileLayer
+    }, null, { position: 'topright' }).addTo(mapInstance);
+
+    markersLayerGroup = L.layerGroup().addTo(mapInstance);
+
+    // 1. 建立標記點
+    SPOTS_DATA.forEach(function(spot) {
+      let pinClass = 'pin-both';
+      let pinText = '★';
+
+      if (spot.group === 'A') {
+        pinClass = 'pin-a';
+        pinText = 'A' + (spot.seqA || '');
+      } else if (spot.group === 'B') {
+        pinClass = 'pin-b';
+        pinText = 'B' + (spot.seqB || '');
+      } else {
+        pinClass = 'pin-both';
+        pinText = '★';
+      }
+
+      const customIcon = L.divIcon({
+        className: 'custom-leaflet-marker',
+        html: '<div class="custom-div-pin ' + pinClass + '"><span>' + pinText + '</span></div>',
+        iconSize: [32, 32],
+        iconAnchor: [16, 16],
+        popupAnchor: [0, -16]
+      });
+
+      const popupContent = 
+        '<div style="min-width: 200px;">' +
+          '<div class="popup-title">' + spot.name + '</div>' +
+          '<div class="popup-sub">📅 ' + spot.day + ' ｜ 🎫 ' + spot.price + '</div>' +
+          '<div>' +
+            '<span class="popup-badge ' + (spot.group === 'A' ? 'bg-orange-100 text-orange-800' : (spot.group === 'B' ? 'bg-green-100 text-green-800' : 'bg-amber-100 text-amber-800')) + '">' +
+              (spot.group === 'A' ? 'A團行程' : (spot.group === 'B' ? 'B團行程' : '雙團共同點')) +
+            '</span>' +
+          '</div>' +
+          '<div style="font-size: 13px; color: #444; margin-top: 6px; line-height: 1.4;">' + spot.desc + '</div>' +
+        '</div>';
+
+      const marker = L.marker([spot.lat, spot.lng], { icon: customIcon })
+        .bindPopup(popupContent);
+
+      marker.spotData = spot;
+      markersLayerGroup.addLayer(marker);
+      spotMarkersMap[spot.id] = marker;
+    });
+
+    // 2. 建立 A 團連線（依 seqA 排序）
+    const spotsA = SPOTS_DATA.filter(function(s) { return s.seqA !== null; })
+      .sort(function(a, b) { return a.seqA - b.seqA; });
+    const coordsA = spotsA.map(function(s) { return [s.lat, s.lng]; });
+
+    polylineALayer = L.polyline(coordsA, {
+      color: '#d97757',
+      weight: 4,
+      opacity: 0.85,
+      dashArray: '8, 6',
+      lineJoin: 'round'
+    }).addTo(mapInstance);
+
+    // 3. 建立 B 團連線（依 seqB 排序）
+    const spotsB = SPOTS_DATA.filter(function(s) { return s.seqB !== null; })
+      .sort(function(a, b) { return a.seqB - b.seqB; });
+    const coordsB = spotsB.map(function(s) { return [s.lat, s.lng]; });
+
+    polylineBLayer = L.polyline(coordsB, {
+      color: '#788c5d',
+      weight: 4,
+      opacity: 0.85,
+      dashArray: '10, 8',
+      lineJoin: 'round'
+    }).addTo(mapInstance);
+
+    // 4. 動態填充下方導航里程卡片
+    renderSpotNavigationCards();
+  }
+
+  function filterMapRoutes(mode) {
+    document.querySelectorAll('.map-controls-panel .map-btn').forEach(function(btn) {
+      btn.classList.remove('active');
+    });
+
+    if (mode === 'all') {
+      document.getElementById('btn-show-all').classList.add('active');
+      if (polylineALayer) mapInstance.addLayer(polylineALayer);
+      if (polylineBLayer) mapInstance.addLayer(polylineBLayer);
+      markersLayerGroup.eachLayer(function(m) { m.setOpacity(1.0); });
+      mapInstance.setView([34.50, 108.85], 8);
+    } else if (mode === 'A') {
+      document.getElementById('btn-show-a').classList.add('active');
+      if (polylineALayer) mapInstance.addLayer(polylineALayer);
+      if (polylineBLayer) mapInstance.removeLayer(polylineBLayer);
+      markersLayerGroup.eachLayer(function(m) {
+        if (m.spotData.group === 'A' || m.spotData.group === 'BOTH') {
+          m.setOpacity(1.0);
+        } else {
+          m.setOpacity(0.15);
+        }
+      });
+      mapInstance.setView([34.60, 108.50], 8);
+    } else if (mode === 'B') {
+      document.getElementById('btn-show-b').classList.add('active');
+      if (polylineALayer) mapInstance.removeLayer(polylineALayer);
+      if (polylineBLayer) mapInstance.addLayer(polylineBLayer);
+      markersLayerGroup.eachLayer(function(m) {
+        if (m.spotData.group === 'B' || m.spotData.group === 'BOTH') {
+          m.setOpacity(1.0);
+        } else {
+          m.setOpacity(0.15);
+        }
+      });
+      mapInstance.setView([34.55, 109.00], 8);
+    } else if (mode === 'BOTH') {
+      document.getElementById('btn-show-both').classList.add('active');
+      if (polylineALayer) mapInstance.removeLayer(polylineALayer);
+      if (polylineBLayer) mapInstance.removeLayer(polylineBLayer);
+      markersLayerGroup.eachLayer(function(m) {
+        if (m.spotData.group === 'BOTH') {
+          m.setOpacity(1.0);
+        } else {
+          m.setOpacity(0.15);
+        }
+      });
+      mapInstance.setView([34.35, 108.95], 9);
+    }
+  }
+
+  function zoomToView(viewName) {
+    if (!mapInstance) return;
+    if (viewName === 'all') {
+      mapInstance.flyTo([34.55, 108.85], 8, { duration: 1.2 });
+    } else if (viewName === 'xian') {
+      mapInstance.flyTo([34.25, 108.95], 13, { duration: 1.2 });
+    } else if (viewName === 'lintong') {
+      mapInstance.flyTo([34.37, 109.25], 13, { duration: 1.2 });
+    } else if (viewName === 'liquan') {
+      mapInstance.flyTo([34.55, 108.45], 11, { duration: 1.2 });
+    }
+  }
+
+  function flyToSpot(spotId) {
+    const marker = spotMarkersMap[spotId];
+    if (marker && mapInstance) {
+      mapInstance.flyTo(marker.getLatLng(), 14, { duration: 1.0 });
+      setTimeout(function() {
+        marker.openPopup();
+      }, 1000);
+    }
+  }
+
+  function renderSpotNavigationCards() {
+    const container = document.getElementById('spot-cards-container');
+    if (!container) return;
+
+    let html = '';
+    SPOTS_DATA.forEach(function(spot) {
+      const tagColor = spot.group === 'A' ? 'text-amber-800 bg-orange-100' : (spot.group === 'B' ? 'text-green-800 bg-green-100' : 'text-yellow-800 bg-yellow-100');
+      const groupText = spot.group === 'A' ? 'A團' : (spot.group === 'B' ? 'B團' : '雙團');
+      html += 
+        '<div class="route-step-card" data-spot-id="' + spot.id + '">' +
+          '<div class="flex items-center justify-between mb-1">' +
+            '<span class="text-xs font-bold px-1.5 py-0.5 rounded ' + tagColor + '">' + groupText + '</span>' +
+            '<span class="text-xs text-stone-500 font-mono">' + spot.price + '</span>' +
+          '</div>' +
+          '<div class="font-bold text-sm text-stone-900 truncate" title="' + spot.name + '">' + spot.name + '</div>' +
+          '<div class="text-xs text-stone-500 truncate mt-0.5">' + spot.day + '</div>' +
+        '</div>';
+    });
+    container.innerHTML = html;
+
+    container.querySelectorAll('.route-step-card').forEach(function(card) {
+      card.addEventListener('click', function() {
+        const id = card.getAttribute('data-spot-id');
+        flyToSpot(id);
+      });
+    });
+  }
+
+  // 頁面載入完成後初始化 Leaflet
+  window.addEventListener('DOMContentLoaded', function() {
+    initLeafletMap();
+  });
+</script>
+</body>
+</html>
